@@ -1,21 +1,23 @@
-var mongoose     = require('mongoose');
-var productModel    =   require('../model/product').product;
+var mongoose = require('mongoose');
+var productModel = require('../model/product').product;
+var inventoryModel = require('../model/product').inventory;
 
 
 
 
+//Add Product
 
-function addproduct(data,  successData, errorData){
+function addproduct(data, successData, errorData) {
     try {
         productModel(data).save().
             then(function (result) {
                 //successData(data);
-                successData({success: true, status: 200, data: data, message : "suceesfullly inserted"});
+                successData({ success: true, status: 200, data: data, message: "suceesfullly inserted" });
             }).catch(function (error) {
-                errorData(error) 
+                errorData(error)
             })
-    } catch  (error) {
-        errorData();        
+    } catch (error) {
+        errorData();
     }
 }
 
@@ -25,31 +27,55 @@ function addproduct(data,  successData, errorData){
 
 
 
-// function allproducts(successData, errorData){
-//     try {
-//         productModel.find({}).
-//             then(function (result) {
-//                 successData({status: 200, result: result, message : "suceesfullly Fetched all record"});
-//             }).catch(function (error) {
-//                 errorData(error)
-//             })
-//     } catch (error) {
-//         errorData(error);
-//     }
-// }
+// All Product In Store
 
-
-
-function allproducts(successData, errorData){
+function allproducts(successData, errorData) {
     try {
-    productModel.aggregate([
-      { $group : { _id : "$productName", total: { $sum: "$productQuantity" } } }
-   ]).then(function (result) {
-                //var output = {name : result._id.name, prd}
-                successData({status: 200, result: result, message : " Fetched all record"});
+        inventoryModel.aggregate([
+            { $group: { _id: "$product", total: { $sum: "$inStock" } } }
+        ]).
+            then(function (result) {
+                var Expresults = [];
+                for (var i = 0; i < result.length; i++) {
+                    Expresults.push({
+    
+                        "product": result[i]._id,
+                        "inStock": result[i].total
+    
+                    });
+                }
+                successData({ status: 200, data: Expresults, message: " Fetched inventory" });
             }).catch(function (error) {
-                errorData(error)
+                errorData(error);
             })
+    } catch (error) {
+        errorData(error);
+    }
+}
+
+
+
+//Inventory
+
+function inventory(successData, errorData) {
+    try {
+        productModel.aggregate([
+            { $group: { _id: "$productName", total: { $sum: "$productQuantity" } } }
+        ]).then(function (result) {
+            var Expresults = [];
+            for (var i = 0; i < result.length; i++) {
+                Expresults.push({
+
+                    "product": result[i]._id,
+                    "inStock": result[i].total
+
+                });
+            }
+            
+            successData({ status: 200, result: Expresults, message: " Fetched inventory" });
+        }).catch(function (error) {
+            errorData(error)
+        })
     } catch (error) {
         errorData(error);
     }
@@ -68,8 +94,6 @@ function allproducts(successData, errorData){
 
 
 
-
-
-
-module.exports.addproduct    =  addproduct
-module.exports.allproducts   =  allproducts
+module.exports.addproduct  = addproduct
+module.exports.allproducts = allproducts
+module.exports.inventory   = inventory

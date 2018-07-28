@@ -11,8 +11,12 @@ var product = new Schema({
     Status :{type :String, enum : ['Confirmed','Cancelled'],  default : 'Cancelled'},
 })
 
-
+var inventory   = new Schema({
+    product : { type: String },  
+    inStock     : { type: Number}
+})
 
 
 
 module.exports.product = mongoose.model('product', product);
+module.exports.inventory = mongoose.model('inventory', inventory);
