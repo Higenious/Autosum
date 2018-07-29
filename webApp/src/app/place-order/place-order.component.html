@@ -1,0 +1,45 @@
+
+<h2>Place Order</h2>
+
+<div class="container">
+<h2>Purchase Order</h2>
+
+<form (ngSubmit)="onSubmit()" >
+
+   
+  <div class="row">
+      <div class="col-25">
+        <label for="fname">Customer Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" [(ngModel)]="newList.customerName" name="name" placeholder="Customer Name..">
+      </div>
+    </div> 
+    <div class="row">
+        <div class="col-25">
+          <label for="product">Company</label>
+        </div>
+        <div class="col-75">
+          <select id="product" [(ngModel)]="newList.Product"  name="cat">
+            <option value="Kinley 20L Jar">Kinley 20L Jar</option>
+            <option value="Bisleri 250ML Carton">Bisleri 250ML Carton</option>
+            <option value="GangaSagar">Ganga Sagar</option>
+            <option value="minaralwater">Minaralwater</option>
+             <option value="corporation">corporation</option>
+          </select>
+        </div>
+      </div>
+    <div class="row">
+        <div class="col-25">
+          <label for="lname">Product Qunatity</label>
+        </div>
+        <div class="col-75">
+          <input type="number"  class="form-control" [(ngModel)]="newList.quantityRequested" name="Qunatity"  placeholder="Enter Qunatity" required>
+        </div>
+      </div>
+   
+    <div class="row">
+      <input type="submit" value="Purchase">
+    </div>
+  </form>
+</div>

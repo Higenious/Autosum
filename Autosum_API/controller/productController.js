@@ -5,13 +5,14 @@ var async = require('async');
 var productModel = require('../model/product').product;
 var inventoryModel = require('../model/product').inventory;
 var productModel  = require('../model/product').product;
-
+var purchaseordersModel= require('../model/product').purchaseorders;
 
 //Add Product 
 function addproduct(req, res) {
     var reqBody = req.body;
-     var pname = req.body.productName;
-     var Quantity = req.body.productQuantity;
+    console.log(reqBody);
+     var pname = req.body.product;
+     var Quantity = req.body.inStock;
      inventoryModel.update({product : pname}, {$inc: {inStock: Quantity}},{upsert: true}, function(error, result) {
         if (error) {
             res.send(error);
@@ -50,24 +51,27 @@ function allproducts(req, res) {
 function placeorder(req, res) {
     console.log('place order API called..');
     var reqBody = req.body;
-    var oderrequested = reqBody.quantityRequested
-    var producName = reqBody.productName;
+    console.log(reqBody);
+    var quantityRequested = reqBody.quantityRequested
+    var Product = reqBody.Product;
     
 
     try {
-        inventoryModel.findOne({ product: producName })
+        inventoryModel.findOne({ product: Product })
             .then(function (result) {
-                if (oderrequested > result.inStock) {
-                    var data = {customerName:reqBody.name, Product:producName, quantityRequested:oderrequested ,status: "Cancelled"}
+                if (quantityRequested > result.inStock) {
+                    var data = {customerName:reqBody.customerName, Product:reqBody.Product, quantityRequested:reqBody.quantityRequested ,status: "Cancelled"}
+                    purchaseordersModel(data).save();
                     res.send({ success: false, status: 400, data: data, message: "purchase order exceed the ‘in-stock’ quantity" });
                 }
                 else {
                     try {
-                        inventoryModel.update({ product: producName }, { $inc: { inStock: -oderrequested } })
-                            .then(function (result2) {
-                                var data = {customerName:reqBody.name, Product:producName, quantityRequested:oderrequested ,status: "Confirmed"}
+                        inventoryModel.update({ product: Product }, { $inc: { inStock: -quantityRequested } })
+                            .then(function (result) {
+                                var data = {customerName:reqBody.customerName, Product:reqBody.Product, quantityRequested:reqBody.quantityRequested ,status: "Confirmed"}
+                                purchaseordersModel(data).save();
                                 res.send({ success: true, status: 200, data: data, message: "Purchase order placed Successfully" });
-                                console.log(result2);
+                                console.log(result);
                             }).catch(function (error) {
                                 res.send(error)
                             });

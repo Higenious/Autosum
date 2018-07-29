@@ -2,35 +2,23 @@
 
 <div class="container">
   <h2>Inventory</h2>
-  <p>Total product in store:</p>            
+  <p>Products in store:</p>            
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Customer Name</th>
+        <!-- <th>Customer Name</th> -->
         <th>Product</th>
-        <th>Quantity Requested</th>
-        <th>Status</th>
+        <th>Store</th>
+        <!-- <th>Status</th> -->
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-
-        <td></td>
+      <tr *ngFor=" let list of lists" >
+        <td>{{list.product}}</td>
+        <td>{{list.inStock}}</td>
+        <!-- <td>{{}}</td>
+        <td>{{}}</td> -->
       </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-        <td></td>
-      </tr>
+     
     </tbody>
   </table>

@@ -6,14 +6,18 @@ var path           = require('path');
 var port           =  5000;
 var productModel   =  require('./model/product').product;
 var router        =  express.Router();
+const cors = require('cors');
 var productRoutes    =  require('./routes/product');
-//connect to DB
 
+//connect to DB
 mongoose.connect('mongodb://127.0.0.1:27017/Autosum',{ useNewUrlParser: true });
 console.log('connected to database');
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({  extended: true }));
 
+
+//Middleware for CORS
+app.use(cors());
 
 app.get('/', function(req, res){
     console.log('Running on server');

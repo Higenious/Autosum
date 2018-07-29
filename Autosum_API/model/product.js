@@ -17,6 +17,14 @@ var inventory   = new Schema({
 })
 
 
+var purchaseorders = new Schema({
+    customerName : {type: String},
+    Product      :   {type: String},
+    quantityRequested : {type: Number},
+    status    : {type:String},
+})
+
 
 module.exports.product = mongoose.model('product', product);
 module.exports.inventory = mongoose.model('inventory', inventory);
+module.exports.purchaseorders = mongoose.model('purchaseorders', purchaseorders);

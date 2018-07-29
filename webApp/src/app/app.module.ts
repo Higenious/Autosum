@@ -10,7 +10,7 @@ import { AboutusComponent } from './aboutus.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { ViewProductComponent } from './view-product/view-product.component';
 import { ProductService } from './services/product.service';
-
+ import { PlaceOrderComponent} from './place-order/place-order.component';
 
 
 const appRoutes: Routes = [
@@ -18,12 +18,13 @@ const appRoutes: Routes = [
   { path: 'aboutus',    component: AboutusComponent },
   { path: 'addproduct', component: AddProductComponent },
   { path: 'inventory', component: ViewProductComponent },
+  { path: 'placeorder', component: PlaceOrderComponent },
   { path: 'store', component: HomeComponent },  ];
 
 
 
 @NgModule({
-  declarations: [ AppComponent,NavbarComponent,AboutusComponent, HomeComponent, AddProductComponent, ViewProductComponent],
+  declarations: [ AppComponent,NavbarComponent,PlaceOrderComponent,AboutusComponent, HomeComponent, AddProductComponent, ViewProductComponent],
   imports: [BrowserModule,RouterModule.forRoot(appRoutes), HttpModule,
     FormsModule],
   providers: [ProductService],

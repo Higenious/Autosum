@@ -19,6 +19,18 @@ export class ViewProductComponent implements OnInit {
   constructor(private listServ: ProductService) { }
 
   ngOnInit() {
+    this.loadLists();
+
   }
 
+
+  public loadLists() {
+//	console.log(this.loadLists);
+    //Get all lists from server and update the lists property
+    this.listServ.getAllLists().subscribe(
+      response => this.lists = response,)
+      
+      
+    }
+   
 }
